@@ -83,12 +83,68 @@ sudo umount /media/peerajak/
 To overlay the catkin_ws/carto_ws over ros1_ws
 
 ```
-cd  ~/ros1_ws
+cd ~/catkin_ws/carto_ws/
+source ~/ros1_ws/carto_ws/devel_isolated/setup.bash
+cd ~/catkin
+rm -rf devel install install_isolated devel_isolated
+catkin_make -j1 -l1
 source ~/ros1_ws/devel/setup.bash
-catkin_make_isolated --install --use-ninja -j1 -l1
+```
+
+To call overlay workspace
+
+```
+source ~/ros1_ws/carto_ws/devel_isolated/setup.bash
+source ~/ros1_ws/devel/setup.bash
 
 ```
 
+or call 
+
+```
+./ros1_ws/chain_setup.bash
+```
+
+To check that everything is set up, we need to see both cartographer_ros package and tortoisebot
+
+```
+rospack list | grep -e tortoisebot_ -e cartographer_ros
+```
+
+We should see this result
+
+cartographer_ros /home/tortoisebot/ros1_ws/carto_ws/install_isolated/share/cartographer_ros
+cartographer_ros_msgs /home/tortoisebot/ros1_ws/carto_ws/install_isolated/share/cartographer_ros_msgs
+tortoisebot_control /home/tortoisebot/ros1_ws/src/tortoisebot/tortoisebot_control
+tortoisebot_description /home/tortoisebot/ros1_ws/src/tortoisebot/tortoisebot_description
+tortoisebot_firmware /home/tortoisebot/ros1_ws/src/tortoisebot/tortoisebot_firmware
+tortoisebot_gazebo /home/tortoisebot/ros1_ws/src/tortoisebot/tortoisebot_gazebo
+tortoisebot_navigation /home/tortoisebot/ros1_ws/src/tortoisebot/tortoisebot_navigation
+tortoisebot_slam /home/tortoisebot/ros1_ws/src/tortoisebot/tortoisebot_slam
 
 
 
+Test cartographer
+
+To generate a map of the surrounding, first, run the bringup.launch on Robot's terminal
+
+```
+roslaunch tortoisebot_firmware bringup.launch
+```
+
+Then run server_bringup.launch on the PC
+
+```
+roslaunch tortoisebot_firmware server_bringup.launch
+```
+
+Then in another terminal launch tortoisebot_slam.launch using:
+
+```
+roslaunch tortoisebot_slam tortoisebot_slam.launch
+```
+
+This will launch RViz which will be generating Map on the basis of the LiDAR scan that is been received.
+
+
+![alt text](cartographer_slam_first_success.png)
