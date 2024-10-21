@@ -80,18 +80,79 @@ To Unmount the above commands
 sudo umount /media/peerajak/
 ```
 
-To overlay the catkin_ws/carto_ws over ros1_ws
+### Cartographer_ros package installation
+
+Dependencies:
 
 ```
-cd ~/catkin_ws/carto_ws/
+sudo apt-get install ros-noetic-map-server ros-noetic-move-base ros-noetic-navigation ros-noetic-dwa-local-planner ros-noetic-ira-laser-tools ros-noetic-teleop-twist-keyboard
+```
+
+Install Google-Cartographer
+
+```
+sudo apt-get update
+sudo apt-get install -y python3-wstool python3-rosdep ninja-build stow
+```
+
+After the tools are installed, create a new 'carto_ws' workspace inside your existing ‘ros1_ws’.
+
+```
+mkdir ~/ros1_ws/carto_ws
+cd ~/ros1_ws/carto_ws
+wstool init src
+wstool merge -t src https://raw.githubusercontent.com/cartographer-project/cartographer_ros/master/cartographer_ros.rosinstall
+wstool update -t src
+sudo rosdep init
+rosdep update
+rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+```
+
+if you face a problem, do the following:
+
+```
+sudo vi ~/ros1_ws/carto_ws/src/cartographer/package.xml
+```
+
+go to line number 46 and comment it out
+
+```
+<!-- <depend>libabsl-dev</depend> -->
+```
+
+then cd into src and clone the following repositories
+
+```
+git clone -b melodic-devel https://github.com/ros-perception/perception_pcl.git
+git clone https://github.com/ros-perception/pcl_msgs
+git clone -b noetic-devel https://github.com/jsk-ros-pkg/geometry2_python3.git
+```
+
+and then go back to carto_ws and run
+
+```
+rosdep install --from-paths src --ignore-src --rosdistro=${ROS_DISTRO} -y
+src/cartographer/scripts/install_abseil.sh
+```
+
+Run this from carto_ws:
+
+```
+catkin_make_isolated --install --use-ninja -j1 -l1
+```
+
+To overlay the ros1_ws/carto_ws over ros1_ws for the first time
+
+```
+cd ~/ros1_ws/carto_ws/
 source ~/ros1_ws/carto_ws/devel_isolated/setup.bash
-cd ~/catkin
+cd ~/ros1_ws
 rm -rf devel install install_isolated devel_isolated
 catkin_make -j1 -l1
 source ~/ros1_ws/devel/setup.bash
 ```
 
-To call overlay workspace
+To call overlayed workspace
 
 ```
 source ~/ros1_ws/carto_ws/devel_isolated/setup.bash
@@ -113,6 +174,7 @@ rospack list | grep -e tortoisebot_ -e cartographer_ros
 
 We should see this result
 
+```
 cartographer_ros /home/tortoisebot/ros1_ws/carto_ws/install_isolated/share/cartographer_ros
 cartographer_ros_msgs /home/tortoisebot/ros1_ws/carto_ws/install_isolated/share/cartographer_ros_msgs
 tortoisebot_control /home/tortoisebot/ros1_ws/src/tortoisebot/tortoisebot_control
@@ -121,10 +183,10 @@ tortoisebot_firmware /home/tortoisebot/ros1_ws/src/tortoisebot/tortoisebot_firmw
 tortoisebot_gazebo /home/tortoisebot/ros1_ws/src/tortoisebot/tortoisebot_gazebo
 tortoisebot_navigation /home/tortoisebot/ros1_ws/src/tortoisebot/tortoisebot_navigation
 tortoisebot_slam /home/tortoisebot/ros1_ws/src/tortoisebot/tortoisebot_slam
+```
 
 
-
-Test cartographer
+### Test cartographer
 
 To generate a map of the surrounding, first, run the bringup.launch on Robot's terminal
 
