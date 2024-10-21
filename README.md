@@ -85,7 +85,7 @@ To overlay the catkin_ws/carto_ws over ros1_ws
 ```
 cd  ~/ros1_ws
 source ~/ros1_ws/devel/setup.bash
-catkin_make_isolated
+catkin_make_isolated --install --use-ninja -j1 -l1
 
 ```
 
