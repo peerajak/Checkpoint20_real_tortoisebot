@@ -73,6 +73,25 @@ sudo mount -o loop,offset=269484032 system_boot_2.img /media/peerajak/
 
 - writable partition
 
+```
+fdisk -l system_boot_2.img
+```
+
+the result:
+
+```
+Device             Boot  Start      End  Sectors  Size Id Type
+system_boot_2.img1 *      2048   526335   524288  256M  c W95 FAT32 (LBA)
+system_boot_2.img2      526336 62333918 61807583 29.5G 83 Linux
+```
+
+use number in Start column and multiply with 512, to get offset value. and then, similar to system-boot partition
+replace offset value to the one you just calculated.
+
+```
+sudo mount -o loop,offset=269484032 system_boot_2.img /media/peerajak/
+```
+
 
 To Unmount the above commands
 
