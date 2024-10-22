@@ -239,7 +239,7 @@ do teleopt during map making
 ros2 run teleop_twist_keyboard teleop_twist_keyboard 
 ```
 
-![alt text](cartographer_slam_first_success.png)
+![alt text](cartographer_slam_first_success1.png)
 
 Save map
 
