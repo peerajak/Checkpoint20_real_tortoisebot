@@ -233,8 +233,43 @@ roslaunch tortoisebot_slam tortoisebot_slam.launch
 
 This will launch RViz which will be generating Map on the basis of the LiDAR scan that is been received.
 
+do teleopt during map making
+
+```
+ros2 run teleop_twist_keyboard teleop_twist_keyboard 
+```
 
 ![alt text](cartographer_slam_first_success.png)
+
+Save map
+
+```
+cd ~/ros1_ws/src/tortoisebot/tortoisebot_navigation/maps/
+rosrun map_server map_saver -f my_map
+```
+
+Call Rviz to point the goal
+```
+roslaunch tortoisebot_firmware bringup.launch
+```
+
+Then run server_bringup.launch 
+
+```
+roslaunch tortoisebot_firmware server_bringup.launch
+```
+
+Then in another terminal launch the autonomous navigation launch file using:
+```
+roslaunch tortoisebot_navigation tortoisebot_navigation.launch
+```
+
+If you wish to start navigation in a map file that you created, run the same launch file with a parameter giving the name of your map. For example, if the name of my map is "my_map" then I will run:
+
+```
+roslaunch tortoisebot_navigation tortoisebot_navigation.launch map_file:=my_map
+```
+
 
 ## Ros2 Navigation
 
@@ -254,4 +289,22 @@ To see the mapping process with RVIZ ( should be connect with -X option as menti
 
 ```
 ros2 launch tortoisebot_description rviz.launch.py
+```
+
+Save Map
+
+```
+ros2 run nav2_map_server map_saver_cli -f /home/tortoisebot/ros2_ws/src/tortoisebot/tortoisebot_bringup/maps/myroom_ros2
+```
+
+To navigate
+
+```
+ros2 launch tortoisebot_bringup autobringup.launch.py use_sim_time:=False exploration:=False map:=/home/tortoisebot/ros2_ws/src/tortoisebot/tortoisebot_bringup/maps/myroom_ros2.yaml
+```
+
+call goal
+
+```
+ros2 launch tortoisebot_description rviz.launch.py 
 ```
