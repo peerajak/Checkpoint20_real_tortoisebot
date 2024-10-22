@@ -2,6 +2,8 @@
 
 command for checkpoint 20
 
+## Connection to Robot
+
 To find tortoisebot IP address
 
 ```
@@ -34,13 +36,13 @@ noetic
 
 before any commands
 
-# To go straight forward in x direction
+- To go straight forward in x direction
 
 ```
 rostopic pub -1 /cmd_vel geometry_msgs/Twist '{linear:  {x: 0.1, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'
 ```
 
-# To stop
+- To stop
 
 ```
 rostopic pub -1 /cmd_vel geometry_msgs/Twist '{linear:  {x: 0, y: 0.0, z: 0.0}, angular: {x: 0.0,y: 0.0,z: 0.0}}'
@@ -54,6 +56,8 @@ cd Documents/
 rviz -d peerajak_rviz.rviz
 
 ```
+
+## Save flash drive for later roll back
 
 To save flash drive to file .img
 
@@ -98,6 +102,8 @@ To Unmount the above commands
 ```
 sudo umount /media/peerajak/
 ```
+
+## Ros1 Navigation
 
 ### Cartographer_ros package installation
 
@@ -229,3 +235,23 @@ This will launch RViz which will be generating Map on the basis of the LiDAR sca
 
 
 ![alt text](cartographer_slam_first_success.png)
+
+## Ros2 Navigation
+
+All terminal must call
+
+```
+galactic
+```
+
+To bring up the cartographer slam
+
+```
+ros2 launch tortoisebot_bringup autobringup.launch.py use_sim_time:=False exploration:=True
+```
+
+To see the mapping process with RVIZ ( should be connect with -X option as mention above)
+
+```
+ros2 launch tortoisebot_description rviz.launch.py
+```
