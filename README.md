@@ -13,13 +13,13 @@ nmap -sP 192.168.3.1/24
 how to ssh
 
 ```
-ssh tortoisebot@192.168.3.21
+ssh tortoisebot@192.168.3.4
 ```
 
 or if you need to transfer X windows to the working computer
 
 ```
-ssh -X tortoisebot@192.168.3.21
+ssh -X tortoisebot@192.168.3.4
 ```
 
 
@@ -236,7 +236,7 @@ This will launch RViz which will be generating Map on the basis of the LiDAR sca
 do teleopt during map making
 
 ```
-ros2 run teleop_twist_keyboard teleop_twist_keyboard 
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 ```
 
 ![alt text](cartographer_slam_first_success1.png)
@@ -291,6 +291,13 @@ To see the mapping process with RVIZ ( should be connect with -X option as menti
 ros2 launch tortoisebot_description rviz.launch.py
 ```
 
+teleopt 
+
+```
+ros2 run teleop_twist_keyboard teleop_twist_keyboard 
+```
+
+
 Save Map
 
 ```
@@ -308,3 +315,27 @@ call goal
 ```
 ros2 launch tortoisebot_description rviz.launch.py 
 ```
+
+## Result
+
+### Tortoisebot
+
+![alt text](tortoisebot_mine.jpg)
+
+### Ros1 Mapping
+
+![alt text](ros1_mapping.png)
+
+### Ros1 Navigation
+
+![alt text](ros1_navigation.png)
+
+### Ros2 Mapping
+
+![alt text](ros2_mapping.png)
+
+### Ros2 Navigation
+
+![alt text](ros2_navigation.png)
+
+
