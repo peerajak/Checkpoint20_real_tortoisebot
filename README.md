@@ -49,11 +49,18 @@ rostopic pub -1 /cmd_vel geometry_msgs/Twist '{linear:  {x: 0, y: 0.0, z: 0.0}, 
 ```
 
 
-To Visualize the Rviz
+To Visualize sensors the Rviz
+Terminal 1
+
 
 ```
-cd Documents/
-rviz -d peerajak_rviz.rviz
+roslaunch tortoisebot_firmware bringup.launch
+```
+
+Terminal 2
+
+```
+rviz -d ~/Documents/peerajak_rviz.rviz
 
 ```
 
