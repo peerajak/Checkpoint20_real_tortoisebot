@@ -2,6 +2,9 @@
 
 command for checkpoint 20
 
+Manufacturer website:
+https://github.com/rigbetellabs/tortoisebot/wiki/4.-ROS-Noetic
+
 ## Connection to Robot
 
 To find tortoisebot IP address
