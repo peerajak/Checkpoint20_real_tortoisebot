@@ -226,18 +226,21 @@ tortoisebot_slam /home/tortoisebot/ros1_ws/src/tortoisebot/tortoisebot_slam
 To generate a map of the surrounding, first, run the bringup.launch on Robot's terminal
 
 ```
+ssh tortoisebot@192.168.3.4
 roslaunch tortoisebot_firmware bringup.launch
 ```
 
-Then run server_bringup.launch on the PC
+Then run server_bringup.launch 
 
 ```
+ssh tortoisebot@192.168.3.4
 roslaunch tortoisebot_firmware server_bringup.launch
 ```
 
 Then in another terminal launch tortoisebot_slam.launch using:
 
 ```
+ssh -X tortoisebot@192.168.3.4
 roslaunch tortoisebot_slam tortoisebot_slam.launch
 ```
 
@@ -347,5 +350,49 @@ ros2 launch tortoisebot_description rviz.launch.py
 ### Ros2 Navigation
 
 ![alt text](ros2_navigation.png)
+
+## if the raspberry pi cam has dark image, set this value interactively, with GUI
+
+```
+rosrun rqt_reconfigure rqt_reconfigure
+```
+
+in my case, this params looks good
+
+![alt text](raspicam_node_launch_params.png)
+
+To permanently change the camera params
+
+```
+tortoisebot@ubuntu:~/ros1_ws/src/tortoisebot/raspicam_node/launch$ vi camerav2_410x308_30fps.launch
+```
+
+```
+  <node type="raspicam_node" pkg="raspicam_node" name="raspicam_node" output="screen">
+    <param name="private_topics" value="true"/>
+    <param name="brightness" value="90" />
+    <param name="contrast" value="100" />
+    <param name="sharpness" value="47" />
+    <param name="saturation" value="1" />
+    <param name="exposure_compensation" value="-10" />
+    <param name="camera_frame_id" value="$(arg camera_frame_id)"/>
+    <param name="enable_raw" value="$(arg enable_raw)"/>
+    <param name="enable_imv" value="$(arg enable_imv)"/>
+    <param name="camera_id" value="$(arg camera_id)"/>
+
+    <param name="camera_info_url" value="package://raspicam_node/camera_info/camerav2_410x308.yaml"/>
+    <param name="camera_name" value="$(arg camera_name)"/>
+    <param name="width" value="410"/>
+    <param name="height" value="308"/>
+
+    <param name="framerate" value="30"/>
+    <param name="exposure_mode" value="antishake"/>
+    <param name="shutter_speed" value="0"/>
+  </node>
+```
+
+
+
+
 
 
